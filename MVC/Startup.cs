@@ -12,7 +12,9 @@ public class Startup
     {
         string connection = Configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection));
+        services.AddDbContext<LoggingContext>(options => options.UseSqlServer(connection));
         services.AddTransient<IBlogRepository, BlogRepository>();
+        services.AddTransient<ILoggingRepository, LoggingRepository>();
         services.AddControllersWithViews();
     }
 
@@ -32,6 +34,8 @@ public class Startup
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthorization();
+
+        app.UseMiddleware<LoggingMiddleware>();
 
         app.UseEndpoints(endpoints =>
         {
