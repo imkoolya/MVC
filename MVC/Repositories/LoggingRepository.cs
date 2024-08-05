@@ -20,4 +20,8 @@ public class LoggingRepository : ILoggingRepository
 
         await _context.SaveChangesAsync();
     }
+    public async Task<Request[]> GetRequests()
+    {
+        return await _context.Requests.ToArrayAsync();
+    }
 }
